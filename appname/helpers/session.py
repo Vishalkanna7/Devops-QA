@@ -11,5 +11,5 @@ def current_membership():
         return [m for m in memberships if m.id == session_id][0]
     else:
         # TODO: Should just raise an exception here.
-        flash('You currently do not have accesss to appname', 'warning')
+        flash('You currently do not have accesss to MyTemplate', 'warning')
         return redirect(url_for("main.home"))

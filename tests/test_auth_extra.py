@@ -1,3 +1,5 @@
+import hashlib
+
 import pytest
 from jinja2 import TemplateNotFound
 
@@ -30,6 +32,11 @@ def login_as_user(testapp, email="user@example.com", password="safepassword"):
 
 @pytest.mark.usefixtures("testapp")
 class TestAuthAdditionalFlows:
+    def test_token_salt_uses_sha256(self, testapp):
+        encoded_secret = testapp.application.config["SECRET_KEY"].encode()
+
+        assert token.unique_salt == hashlib.sha256(encoded_secret).hexdigest()[:5]
+
     def test_confirm_invalid_token_404(self, testapp):
         response = testapp.get("/confirm/not-a-valid-token")
         assert response.status_code == 404

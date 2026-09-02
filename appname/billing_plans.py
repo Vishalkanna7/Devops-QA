@@ -12,7 +12,7 @@ class BasePlan:
     stripe_product_id = None
     name = None
     billing_type = UNLIMITED
-    description = 'A plan for appname'
+    description = 'A plan for MyTemplate'
     friendly_name = "Default Plan"
 
     def __init__(self, team):

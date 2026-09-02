@@ -15,7 +15,7 @@ blueprint = Blueprint('dashboard_files', __name__)
 def check_for_membership(*args, **kwargs):
     # Ensure that anyone that attempts to pull up the dashboard is currently belongs to any team on our site
     if not current_user.is_authenticated or current_user.primary_membership_id is None:
-        flash('You currently do not have accesss to appname', 'warning')
+        flash('You currently do not have accesss to MyTemplate', 'warning')
         return redirect(url_for("main.home"))
 
 @blueprint.route('/<hashid:team_id>/files')

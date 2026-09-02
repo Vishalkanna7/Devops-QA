@@ -64,7 +64,7 @@ class TeamMemberView(AdminModelView):
 
 class AdminDashboard:
     def init_app(self, app):
-        self.dashboard = admin.Admin(name='appname', template_mode='bootstrap3',
+        self.dashboard = admin.Admin(name='MyTemplate', template_mode='bootstrap3',
                                      index_view=AdminHomeView(template='admin/index.html'))
 
         self.dashboard.add_view(UserView(User, db.session))

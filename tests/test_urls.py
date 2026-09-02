@@ -13,6 +13,13 @@ class TestURLs:
         """ Tests if the home page loads """
         expect_response('/', 200, testapp)
 
+    def test_health(self, testapp):
+        response = testapp.get('/health')
+
+        assert response.status_code == 200
+        assert response.is_json
+        assert response.get_json() == {'status': 'ok'}
+
     def test_login(self, testapp):
         """ Tests if the login page loads """
         expect_response('/login', 200, testapp)

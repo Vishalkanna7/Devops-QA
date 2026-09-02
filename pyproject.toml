@@ -1,0 +1,9 @@
+[tool.ruff]
+target-version = "py312"
+extend-exclude = ["env", "migrations"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]
+# These legacy patterns are pre-existing and intentionally left out of this
+# focused assessment change to avoid broad source refactors.
+ignore = ["E741", "F401", "F523", "F811"]

@@ -19,7 +19,7 @@ class GDPRExport:
     def send_pii_export(self):
         json_str = self.export_user_pii_json()
         attachment = Attachment(filename="user_export.json", content_type="application/json", data=json_str)
-        mailer = NotificationMailer(self._requesting_user.email, "appname User Data Export",
+        mailer = NotificationMailer(self._requesting_user.email, "MyTemplate User Data Export",
                                     "Your requested export is attached below", attachments=[attachment])
         mailer.send()
 

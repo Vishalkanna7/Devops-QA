@@ -1,49 +1,21 @@
-.PHONY: docs test agent-setup agent-resetdb agent-smoke agent-test
+PYTHON ?= python
+REPORTS_DIR ?= reports
 
-VENV_PYTHON=env/bin/python
-AGENT_TEST_FILES=$(shell git ls-files 'tests/*.py')
+.PHONY: test ui lint security quality
 
-help:
-	@echo "  env         create a development environment using virtualenv"
-	@echo "  deps        install dependencies using pip"
-	@echo "  clean       remove unwanted files like .pyc's"
-	@echo "  lint        check style with flake8"
-	@echo "  test        run all your tests using py.test"
-	@echo "  agent-setup install dependencies in ./env for AI/code agents"
-	@echo "  agent-resetdb reset and seed local development database"
-	@echo "  agent-smoke run fast smoke tests"
-	@echo "  agent-test  run full test suite with coverage"
+$(REPORTS_DIR):
+	mkdir -p $(REPORTS_DIR)
 
-env:
-	python3 -m venv env && \
-	. env/bin/activate && \
-	make deps
+test: $(REPORTS_DIR)
+	$(PYTHON) -m pytest tests --ignore=tests/test_ui_landing.py --junitxml=$(REPORTS_DIR)/junit.xml --cov=appname --cov-report=xml:$(REPORTS_DIR)/coverage.xml --cov-report=html:$(REPORTS_DIR)/htmlcov
 
-deps:
-	pip install -r requirements.txt
+ui: $(REPORTS_DIR)
+	$(PYTHON) -m pytest tests/test_ui_landing.py --browser chromium --output=$(REPORTS_DIR)/playwright
 
-clean:
-	find . | grep -E "(__pycache__|\.pyc|\.DS_Store|\.db|\.pyo$\)" | xargs rm -rf
+lint: $(REPORTS_DIR)
+	$(PYTHON) -m ruff check . --output-format=json > $(REPORTS_DIR)/ruff.json
 
-lint:
-	flake8 --exclude=env .
+security: $(REPORTS_DIR)
+	$(PYTHON) -m bandit -r appname -f json -o $(REPORTS_DIR)/bandit.json
 
-test:
-	py.test tests
-
-agent-setup:
-	python3 -m venv env
-	$(VENV_PYTHON) -m pip install --upgrade pip
-	$(VENV_PYTHON) -m pip install -r requirements.txt
-
-agent-resetdb:
-	@if [ ! -x "$(VENV_PYTHON)" ]; then echo "Run 'make agent-setup' first."; exit 1; fi
-	APPNAME_ENV=dev $(VENV_PYTHON) manage.py resetdb
-
-agent-smoke:
-	@if [ ! -x "$(VENV_PYTHON)" ]; then echo "Run 'make agent-setup' first."; exit 1; fi
-	APPNAME_ENV=test $(VENV_PYTHON) -m pytest -q tests/test_urls.py tests/test_login.py
-
-agent-test:
-	@if [ ! -x "$(VENV_PYTHON)" ]; then echo "Run 'make agent-setup' first."; exit 1; fi
-	APPNAME_ENV=test $(VENV_PYTHON) -m pytest --cov-report=term-missing --cov=appname $(AGENT_TEST_FILES)
+quality: test ui lint security

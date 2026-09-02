@@ -1,8 +1,12 @@
 [![Ignite](https://user-images.githubusercontent.com/882381/45938197-49cfb880-bf7c-11e8-91ea-94fffd9d054a.png)](https://github.com/sumukh/ignite)
 
-# Ignite for Flask [![Flask PyTest CI](https://github.com/Sumukh/Ignite/actions/workflows/flask-pytest.yml/badge.svg)](https://github.com/Sumukh/Ignite/actions/workflows/flask-pytest.yml)
+# MyTemplate for Flask
 
-Ignite is a scaffold for starting new SaaS applications built using Python and Flask. It takes care of the boilerplate code (like User Registration, OAuth, Teams, and Billing), allowing you to focus on building your application. Ignite is built upon best practices for modern Flask applications.
+MyTemplate is a scaffold for starting new SaaS applications built using Python and Flask. It takes care of the boilerplate code (like User Registration, OAuth, Teams, and Billing), allowing you to focus on building your application.
+
+## Quality checks
+
+On Linux/macOS, run `make quality`. It runs backend tests with JUnit and coverage reports, the headless Chromium UI test, Ruff, and Bandit. Reports are written to `reports/` and uploaded by GitHub Actions on every push and pull request. See [ASSESSMENT.md](ASSESSMENT.md) for the reviewer summary and Windows commands.
 
 ## Features
 
