@@ -13,7 +13,7 @@ Flask-Assets>=0.12,<2.2.0
 # Branch that contains a Unicode bug fix - use until https://github.com/miracle2k/webassets/pull/482 is published
 webassets==2.0
 
-Flask-Caching==1.11.1
+Flask-Caching==2.5.1
 # Flask-Caching 1.11.1's Redis backend relies on CacheLib's pre-0.7 API.
 cachelib==0.6.0
 Flask-Login==0.6.3
